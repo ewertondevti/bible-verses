@@ -1,11 +1,22 @@
+import { ConfigProvider } from "antd";
 import React from "react";
 import ReactDOM from "react-dom/client";
+import { BrowserRouter } from "react-router-dom";
 import App from "./App.tsx";
 import "./globals.css";
-import "./i18next";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <App />
+    <ConfigProvider
+      theme={{
+        token: {
+          colorText: "white",
+        },
+      }}
+    >
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </ConfigProvider>
   </React.StrictMode>
 );
