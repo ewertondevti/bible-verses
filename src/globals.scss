@@ -71,3 +71,17 @@ h6 {
 #__next {
   isolation: isolate;
 }
+
+.ant-spin {
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &-dot-holder {
+    width: 100%;
+    height: 100%;
+  }
+}
