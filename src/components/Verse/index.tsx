@@ -1,4 +1,4 @@
-import { getRandomVerse, getUser, getVerse } from "@/services/app";
+import { getRandomVerse, getVerse } from "@/services/app";
 import { IVerse } from "@/types/app";
 import { CheckOutlined, CopyOutlined, ShareAltOutlined } from "@ant-design/icons";
 import { Button, Col, Row, Space, Spin, Typography } from "antd";
@@ -14,11 +14,6 @@ export const Verse = () => {
   const [copySuccess, setCopySuccess] = useState(false);
 
   const [search] = useSearchParams();
-
-  getUser().then((user) => {
-    console.log("user", user);
-  });
-
 
   const updateVerse = (verse: IVerse) => {
     setVerse(verse);
