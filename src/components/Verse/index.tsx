@@ -1,7 +1,7 @@
 import { getRandomVerse, getVerse } from "@/services/app";
 import { IVerse } from "@/types/app";
 import { CheckOutlined, CopyOutlined, ShareAltOutlined } from "@ant-design/icons";
-import { Button, Col, Row, Space, Typography } from "antd";
+import { Button, Col, Row, Space, Spin, Typography } from "antd";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import "./Verse.scss";
@@ -10,17 +10,25 @@ const { Title, Text } = Typography;
 
 export const Verse = () => {
   const [verse, setVerse] = useState<IVerse>();
+  const [isLoading, setIsLoading] = useState(false);
   const [copySuccess, setCopySuccess] = useState(false);
 
   const [search] = useSearchParams();
+
+  const updateVerse = (verse: IVerse) => {
+    setVerse(verse);
+    setIsLoading(false);
+  };
 
   useEffect(() => {
     const abbrev = search.get("abbrev");
     const chapter = search.get("chapter");
     const verse = search.get("verse");
 
-    if (abbrev && chapter && verse) getVerse(abbrev, chapter, verse).then((verse) => setVerse(verse));
-    else getRandomVerse().then((verse) => setVerse(verse));
+    setIsLoading(true);
+
+    if (abbrev && chapter && verse) getVerse(abbrev, chapter, verse).then(updateVerse);
+    else getRandomVerse().then(updateVerse);
   }, [search]);
 
   const handleCopy = async () => {
@@ -47,6 +55,8 @@ export const Verse = () => {
       alert("O compartilhamento não é suportado neste navegador.");
     }
   };
+
+  if (isLoading) return <Spin spinning />;
 
   return (
     <Row className="verse">
