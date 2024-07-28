@@ -15,7 +15,7 @@ export const Verse = () => {
 
   const [search] = useSearchParams();
 
-  const user = getUser();
+  const user = getUser().then((res) => res);
 
   console.log("user", user);
 
