@@ -15,9 +15,10 @@ export const Verse = () => {
 
   const [search] = useSearchParams();
 
-  const user = getUser().then((res) => res);
+  getUser().then((user) => {
+    console.log("user", user);
+  });
 
-  console.log("user", user);
 
   const updateVerse = (verse: IVerse) => {
     setVerse(verse);
