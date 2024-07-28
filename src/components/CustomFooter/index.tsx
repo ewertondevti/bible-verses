@@ -9,7 +9,7 @@ export const CustomFooter = () => {
     <Space direction="vertical" align="center" size={2} className="footer">
       <img src={logo} width={50} />
       <Title level={5}>Igreja Kairós Portugal</Title>
-      <Text>Rua da Papoila 14, Samora Correia</Text>
+      <Text>Rua da Papoila 14, 2135-085 Samora Correia</Text>
     </Space>
   );
 };
