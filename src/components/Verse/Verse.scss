@@ -2,10 +2,19 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  margin: -100px;
   height: 100%;
 
   &__content {
     text-align: center;
     width: 60%;
+
+    &-buttons {
+      margin-top: 20px;
+      
+      button {
+        width: 200px;
+      }
+    }
   }
 }

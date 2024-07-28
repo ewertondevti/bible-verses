@@ -1,4 +1,4 @@
-import { User, IVerse } from "@/types/app";
+import { IVerse, User } from "@/types/app";
 import api from ".";
 
 export const getUser = async () => {
@@ -8,5 +8,10 @@ export const getUser = async () => {
 
 export const getRandomVerse = async () => {
   const { data } = await api.get<IVerse>(`/verses/acf/random`);
+  return data;
+};
+
+export const getVerse = async (abbrev: string, chapter: string, verse: string) => {
+  const { data } = await api.get<IVerse>(`/verses/acf/${abbrev}/${chapter}/${verse}`);
   return data;
 };

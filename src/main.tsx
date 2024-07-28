@@ -12,6 +12,12 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
         token: {
           colorText: "white",
         },
+        components: {
+          Button: {
+            defaultBg: "#151515",
+            colorPrimaryHover: "#151515",
+          },
+        },
       }}
     >
       <BrowserRouter>

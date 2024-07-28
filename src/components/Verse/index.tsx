@@ -1,17 +1,52 @@
-import { getRandomVerse } from "@/services/app";
+import { getRandomVerse, getVerse } from "@/services/app";
 import { IVerse } from "@/types/app";
-import { Row, Space, Typography } from "antd";
+import { CheckOutlined, CopyOutlined, ShareAltOutlined } from "@ant-design/icons";
+import { Button, Col, Row, Space, Typography } from "antd";
 import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import "./Verse.scss";
 
 const { Title, Text } = Typography;
 
 export const Verse = () => {
   const [verse, setVerse] = useState<IVerse>();
+  const [copySuccess, setCopySuccess] = useState(false);
+
+  const [search] = useSearchParams();
 
   useEffect(() => {
-    getRandomVerse().then((verse) => setVerse(verse));
-  }, []);
+    const abbrev = search.get("abbrev");
+    const chapter = search.get("chapter");
+    const verse = search.get("verse");
+
+    if (abbrev && chapter && verse) getVerse(abbrev, chapter, verse).then((verse) => setVerse(verse));
+    else getRandomVerse().then((verse) => setVerse(verse));
+  }, [search]);
+
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(verse!.text);
+      setCopySuccess(true);
+    } catch (err) {
+      setCopySuccess(false);
+    }
+  };
+
+  const handleShare = async () => {
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: "Este versículo me fez lembrar de você!",
+          text: verse?.text,
+          url: `https://bible-verses.vercel.app/?abbrev=${verse?.book.abbrev.pt}&chapter=${verse?.chapter}&verse=${verse?.number}`,
+        });
+      } catch (error) {
+        console.error("Erro ao compartilhar:", error);
+      }
+    } else {
+      alert("O compartilhamento não é suportado neste navegador.");
+    }
+  };
 
   return (
     <Row className="verse">
@@ -23,6 +58,20 @@ export const Verse = () => {
             {verse?.chapter}:{verse?.number}
           </Text>
         </Space>
+
+        <Row gutter={[8, 8]} className="verse__content-buttons">
+          <Col xs={24} md={24}>
+            <Button icon={copySuccess ? <CheckOutlined /> : <CopyOutlined />} onClick={handleCopy}>
+              {copySuccess ? "Copiado" : "Copiar"}
+            </Button>
+          </Col>
+
+          <Col xs={24} md={24}>
+            <Button icon={<ShareAltOutlined />} onClick={handleShare}>
+              Compartilhar
+            </Button>
+          </Col>
+        </Row>
       </Space>
     </Row>
   );
